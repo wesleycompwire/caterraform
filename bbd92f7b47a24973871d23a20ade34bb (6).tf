@@ -9,10 +9,12 @@ terraform {
   }
 }
 
+# NEW Service ID
 locals {
-  iam_id = "iam-ServiceId-6bf7af4e-6f07-4894-ab72-ff539dfb951a"
+  iam_id = "iam-ServiceId-7a97ee6f-5862-44ce-be43-6d13dbdd6f3d"
 }
 
+# IBM Cloud API Key
 variable "ibmcloud_api_key" {}
 
 provider "ibm" {
@@ -52,18 +54,20 @@ resource "ibm_iam_service_policy" "storage_policy" {
   }
 
   resource_attributes {
-    name  = "serviceName"
-    value = "cloud-object-storage"
+    name     = "serviceName"
+    value    = "cloud-object-storage"
+    operator = "stringEquals"
   }
 }
 
-# IAM Service Policy for Billing (existing one must be imported)
+# IAM Service Policy for Billing
 resource "ibm_iam_service_policy" "billing_policy" {
   iam_id = local.iam_id
   roles  = ["Viewer"]
 
   resource_attributes {
-    name  = "serviceName"
-    value = "billing"
+    name     = "serviceName"
+    value    = "billing"
+    operator = "stringEquals"
   }
 }
